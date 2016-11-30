@@ -13,6 +13,7 @@ import moduleEraser from "./modules/eraser/index";
 import moduleUndo from "./modules/undo/index";
 import moduleFullScreen from "./modules/full-screen/index";
 import moduleInfo from "./modules/info/index";
+import moduleHtml from "./modules/html/index";
 import i18nZhCn from "./i18n/zh-cn";
 import i18nEnUs from "./i18n/en-us";
 import arrayFill from "./array-polyfill";
@@ -43,7 +44,8 @@ exports.install = (Vue, options) => {
         moduleEraser,
         moduleUndo,
         moduleFullScreen,
-        moduleInfo
+        moduleInfo,
+        moduleHtml,
     ]
     //extended modules
     if (Array.isArray(options.modules)) {

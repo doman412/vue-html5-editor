@@ -4,8 +4,7 @@
         <div class="toolbar" :style="{'z-index':zIndex+1}" v-el:toolbar>
             <ul>
                 <template v-for="module in modules">
-                    <li v-if="module.show" :title="locale[module.i18n]"
-                        @click="activeModule(module)">
+                    <li v-if="module.show" :title="locale[module.i18n]" @click="activeModule(module)" :class="{'disabled': htmlView && module.name != 'html'}">
                         <span class="icon" :class="module.icon"></span>
                     </li>
                 </template>
@@ -14,8 +13,10 @@
                 <div v-if="dashboard" :is="dashboard" keep-alive></div>
             </div>
         </div>
-        <div class="content" v-el:content contenteditable="true" @click="toggleDashboard(dashboard)"
-             :style="contentStyle">
+        <div class="content" v-show="!htmlView" v-el:content contenteditable="true" @click="toggleDashboard(dashboard)" :style="contentStyle">
+        </div>
+        <div class="content html-view" v-show="htmlView" v-el:html-view @click="toggleDashboard(dashboard)" :style="contentStyle">
+            <textarea name="name" :style="contentStyle" v-model="content"></textarea>
         </div>
     </div>
 </template>
@@ -51,6 +52,7 @@
                 fullScreen: false,
                 dashboard: null,
                 dashboardStyle: {},
+                htmlView: false,
             }
         },
         watch: {
@@ -148,6 +150,10 @@
                 }
             },
             activeModule(module){
+                if(this.htmlView && module.name !== 'html'){
+                    // disable module actions when html view is active
+                    return;
+                }
                 if (typeof module.handler == "function") {
                     module.handler(this)
                     return
@@ -155,6 +161,10 @@
                 if (module.hasDashboard) {
                     this.toggleDashboard('dashboard-' + module.name)
                 }
+            },
+            toggleHtmlView(){
+                console.log('toggle html');
+                this.htmlView = !this.htmlView;
             }
         },
         compiled(){

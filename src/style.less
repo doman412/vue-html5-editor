@@ -53,6 +53,10 @@
           width: 16px;
           display: inline-block;
         }
+        &.disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
       }
     }
 
@@ -141,6 +145,19 @@
 
     img {
       max-width: 100%;
+    }
+
+    &.html-view {
+      padding: 0;
+      display: flex;
+      textarea {
+        resize: none;
+        &:focus {
+          outline: 0;
+          border-bottom: none;
+          box-shadow: none;
+        }
+      }
     }
   }
   .loading {
