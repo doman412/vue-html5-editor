@@ -114,7 +114,7 @@
 
             headingFilter(headingNumber){
                 if(typeof this.config.heading === 'object'){
-                    return this.config.heading[`h${headingNumber}`] !== false
+                    return this.config.heading[`h${headingNumber+1}`] !== false
                 }
                 return true
             },
