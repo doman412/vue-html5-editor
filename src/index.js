@@ -91,6 +91,15 @@ exports.install = (Vue, options) => {
         module.config = Vue.util.extend(module.config || {}, config || {})
 
         if (module.dashboard) {
+            // extend each dashboard to have some data about itself
+            module.dashboard = Vue.extend(module.dashboard).extend({
+                data(){
+                    return {
+                        config: module.config,
+                        name: module.name
+                    }
+                }
+            })
             //$options.module
             module.dashboard.module = module
             components['dashboard-' + module.name] = module.dashboard

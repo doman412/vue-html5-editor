@@ -5,23 +5,23 @@
 </style>
 <template>
     <div class="dashboard-font">
-        <div>
+        <div v-if="config.heading !== false">
             <label>{{$parent.locale["heading"]}}:</label>
-            <button v-for="h in 6" type="button" @click="setHeading(h+1)">H{{h+1}}</button>
+            <button v-for="h in 6 | filterBy headingFilter" type="button" @click="setHeading(h+1)">H{{h+1}}</button>
         </div>
-        <div>
+        <div v-if="config.font_name !== false">
             <label>
                 {{$parent.locale["font name"]}}:
             </label>
             <button v-for="name in nameList" type="button" @click="setFontName(name)">{{name}}</button>
         </div>
-        <div>
+        <div v-if="config.font_size !== false">
             <label>
                 {{$parent.locale["font size"]}}:
             </label>
             <button v-for="size in 7" type="button" @click="setFontSize(size+1)">{{size+1}}</button>
         </div>
-        <div>
+        <div v-if="config.line_height !== false">
             <label>
                 {{$parent.locale["line height"]}}:
             </label>
@@ -55,6 +55,9 @@
                     "1.0", "1.5", "1.8", "2.0", "2.5", "3.0"
                 ]
             }
+        },
+        filters: {
+
         },
         methods: {
             setFontName(name){
@@ -107,7 +110,14 @@
                     container.parentNode.replaceChild(div, container)
                 }
                 this.$parent.toggleDashboard("font")
-            }
+            },
+
+            headingFilter(headingNumber){
+                if(typeof this.config.heading === 'object'){
+                    return this.config.heading[`h${headingNumber}`] !== false
+                }
+                return true
+            },
         }
     }
 </script>

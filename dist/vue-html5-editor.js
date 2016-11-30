@@ -198,6 +198,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        module.config = Vue.util.extend(module.config || {}, config || {});
 
 	        if (module.dashboard) {
+	            // extend each dashboard to have some data about itself
+	            module.dashboard = Vue.extend(module.dashboard).extend({
+	                data: function data() {
+	                    return {
+	                        config: module.config,
+	                        name: module.name
+	                    };
+	                }
+	            });
 	            //$options.module
 	            module.dashboard.module = module;
 	            components['dashboard-' + module.name] = module.dashboard;
@@ -711,6 +720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__webpack_require__(37)
 	__vue_script__ = __webpack_require__(41)
 	if (__vue_script__ &&
@@ -720,14 +730,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_template__ = __webpack_require__(42)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/editor.vue"
+	  var id = "_v-6e285564/editor.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1097,7 +1113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            type: Number,
 	            default: 300,
 	            validator: function validator(val) {
-	                return val >= 300;
+	                return val >= 100;
 	            }
 	        },
 	        zIndex: {
@@ -1264,7 +1280,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 42 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"vue-html5-editor\" :style=\"{'z-index':zIndex}\" :class=\"{'full-screen':fullScreen}\">\n    <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" v-el:toolbar>\n        <ul>\n            <template v-for=\"module in modules\">\n                <li v-if=\"module.show\" :title=\"locale[module.i18n]\"\n                    @click=\"activeModule(module)\">\n                    <span class=\"icon\" :class=\"module.icon\"></span>\n                </li>\n            </template>\n        </ul>\n        <div class=\"dashboard\" v-show=\"dashboard\" :style=\"dashboardStyle\">\n            <div v-if=\"dashboard\" :is=\"dashboard\" keep-alive></div>\n        </div>\n    </div>\n    <div class=\"content\" v-el:content contenteditable=\"true\" @click=\"toggleDashboard(dashboard)\"\n         :style=\"contentStyle\">\n    </div>\n</div>\n";
+	module.exports = "\n\n<div class=\"vue-html5-editor\" :style=\"{'z-index':zIndex}\" :class=\"{'full-screen':fullScreen}\">\n    <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" v-el:toolbar>\n        <ul>\n            <template v-for=\"module in modules\">\n                <li v-if=\"module.show\" :title=\"locale[module.i18n]\"\n                    @click=\"activeModule(module)\">\n                    <span class=\"icon\" :class=\"module.icon\"></span>\n                </li>\n            </template>\n        </ul>\n        <div class=\"dashboard\" v-show=\"dashboard\" :style=\"dashboardStyle\">\n            <div v-if=\"dashboard\" :is=\"dashboard\" keep-alive></div>\n        </div>\n    </div>\n    <div class=\"content\" v-el:content contenteditable=\"true\" @click=\"toggleDashboard(dashboard)\"\n         :style=\"contentStyle\">\n    </div>\n</div>\n";
 
 /***/ },
 /* 43 */
@@ -1298,17 +1314,24 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__vue_template__ = __webpack_require__(45)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/text/dashboard.vue"
+	  var id = "_v-7cb0a1ca/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1320,7 +1343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 45 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<button type=\"button\" @click=\"$parent.execCommand('bold')\">{{$parent.locale[\"bold\"]}}</button>\n<button type=\"button\" @click=\"$parent.execCommand('italic')\">{{$parent.locale[\"italic\"]}}</button>\n<button type=\"button\" @click=\"$parent.execCommand('underline')\">{{$parent.locale[\"underline\"]}}</button>\n<button type=\"button\" @click=\"$parent.execCommand('strikeThrough')\">{{$parent.locale[\"strike through\"]}}</button>\n<button type=\"button\" @click=\"$parent.execCommand('subscript')\">{{$parent.locale[\"subscript\"]}}</button>\n<button type=\"button\" @click=\"$parent.execCommand('superscript')\">{{$parent.locale[\"superscript\"]}}</button>\n";
+	module.exports = "\n<button v-if=\"config.bold !== false\" type=\"button\" @click=\"$parent.execCommand('bold')\">{{$parent.locale[\"bold\"]}}</button>\n<button v-if=\"config.italic !== false\" type=\"button\" @click=\"$parent.execCommand('italic')\">{{$parent.locale[\"italic\"]}}</button>\n<button v-if=\"config.underline !== false\" type=\"button\" @click=\"$parent.execCommand('underline')\">{{$parent.locale[\"underline\"]}}</button>\n<button v-if=\"config.strikeThrough !== false\" type=\"button\" @click=\"$parent.execCommand('strikeThrough')\">{{$parent.locale[\"strike through\"]}}</button>\n<button v-if=\"config.subscript !== false\" type=\"button\" @click=\"$parent.execCommand('subscript')\">{{$parent.locale[\"subscript\"]}}</button>\n<button v-if=\"config.superscript !== false\" type=\"button\" @click=\"$parent.execCommand('superscript')\">{{$parent.locale[\"superscript\"]}}</button>\n";
 
 /***/ },
 /* 46 */
@@ -1355,6 +1378,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__webpack_require__(48)
 	__vue_script__ = __webpack_require__(50)
 	if (__vue_script__ &&
@@ -1364,14 +1388,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_template__ = __webpack_require__(51)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/font/dashboard.vue"
+	  var id = "_v-589d52bd/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1421,13 +1451,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 50 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _typeof2 = __webpack_require__(78);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	// <style>
 	//     .vue-html5-editor .dashboard .dashboard-font {
 	//         line-height: 36px;
@@ -1435,23 +1472,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	// </style>
 	// <template>
 	//     <div class="dashboard-font">
-	//         <div>
+	//         <div v-if="config.heading !== false">
 	//             <label>{{$parent.locale["heading"]}}:</label>
-	//             <button v-for="h in 6" type="button" @click="setHeading(h+1)">H{{h+1}}</button>
+	//             <button v-for="h in 6 | filterBy headingFilter" type="button" @click="setHeading(h+1)">H{{h+1}}</button>
 	//         </div>
-	//         <div>
+	//         <div v-if="config.font_name !== false">
 	//             <label>
 	//                 {{$parent.locale["font name"]}}:
 	//             </label>
 	//             <button v-for="name in nameList" type="button" @click="setFontName(name)">{{name}}</button>
 	//         </div>
-	//         <div>
+	//         <div v-if="config.font_size !== false">
 	//             <label>
 	//                 {{$parent.locale["font size"]}}:
 	//             </label>
 	//             <button v-for="size in 7" type="button" @click="setFontSize(size+1)">{{size+1}}</button>
 	//         </div>
-	//         <div>
+	//         <div v-if="config.line_height !== false">
 	//             <label>
 	//                 {{$parent.locale["line height"]}}:
 	//             </label>
@@ -1470,6 +1507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	    },
 
+	    filters: {},
 	    methods: {
 	        setFontName: function setFontName(name) {
 	            this.$parent.execCommand("fontName", name);
@@ -1521,6 +1559,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                container.parentNode.replaceChild(div, container);
 	            }
 	            this.$parent.toggleDashboard("font");
+	        },
+	        headingFilter: function headingFilter(headingNumber) {
+	            if ((0, _typeof3.default)(this.config.heading) === 'object') {
+	                return this.config.heading["h" + headingNumber] !== false;
+	            }
+	            return true;
 	        }
 	    }
 	};
@@ -1530,7 +1574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 51 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"dashboard-font\">\n    <div>\n        <label>{{$parent.locale[\"heading\"]}}:</label>\n        <button v-for=\"h in 6\" type=\"button\" @click=\"setHeading(h+1)\">H{{h+1}}</button>\n    </div>\n    <div>\n        <label>\n            {{$parent.locale[\"font name\"]}}:\n        </label>\n        <button v-for=\"name in nameList\" type=\"button\" @click=\"setFontName(name)\">{{name}}</button>\n    </div>\n    <div>\n        <label>\n            {{$parent.locale[\"font size\"]}}:\n        </label>\n        <button v-for=\"size in 7\" type=\"button\" @click=\"setFontSize(size+1)\">{{size+1}}</button>\n    </div>\n    <div>\n        <label>\n            {{$parent.locale[\"line height\"]}}:\n        </label>\n        <button v-for=\"lh in lineHeightList\" type=\"button\" @click=\"setLineHeight(lh)\">\n            {{lh}}\n        </button>\n    </div>\n</div>\n";
+	module.exports = "\n\n\n\n\n\n<div class=\"dashboard-font\">\n    <div v-if=\"config.heading !== false\">\n        <label>{{$parent.locale[\"heading\"]}}:</label>\n        <button v-for=\"h in 6 | filterBy headingFilter\" type=\"button\" @click=\"setHeading(h+1)\">H{{h+1}}</button>\n    </div>\n    <div v-if=\"config.font_name !== false\">\n        <label>\n            {{$parent.locale[\"font name\"]}}:\n        </label>\n        <button v-for=\"name in nameList\" type=\"button\" @click=\"setFontName(name)\">{{name}}</button>\n    </div>\n    <div v-if=\"config.font_size !== false\">\n        <label>\n            {{$parent.locale[\"font size\"]}}:\n        </label>\n        <button v-for=\"size in 7\" type=\"button\" @click=\"setFontSize(size+1)\">{{size+1}}</button>\n    </div>\n    <div v-if=\"config.line_height !== false\">\n        <label>\n            {{$parent.locale[\"line height\"]}}:\n        </label>\n        <button v-for=\"lh in lineHeightList\" type=\"button\" @click=\"setLineHeight(lh)\">\n            {{lh}}\n        </button>\n    </div>\n</div>\n";
 
 /***/ },
 /* 52 */
@@ -1565,6 +1609,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__webpack_require__(54)
 	__vue_script__ = __webpack_require__(56)
 	if (__vue_script__ &&
@@ -1574,14 +1619,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_template__ = __webpack_require__(57)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/color/dashboard.vue"
+	  var id = "_v-2943a24f/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1685,7 +1736,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 57 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div>\n    <label>\n        <input type=\"radio\" value=\"foreColor\" v-model=\"command\">&nbsp;\n        {{$parent.locale[\"fore color\"]}}\n    </label>\n    <label>\n        <input type=\"radio\" value=\"backColor\" v-model=\"command\">&nbsp;\n        {{$parent.locale[\"background color\"]}}\n    </label>\n</div>\n<div>\n    <div v-for=\"color in colors\" :style=\"{'background-color':color}\" class=\"color-card\" @click=\"changeColor(color)\">\n    </div>\n    <div style=\"clear: both\"></div>\n</div>\n";
+	module.exports = "\n\n\n\n\n\n\n\n\n\n<div>\n    <label>\n        <input type=\"radio\" value=\"foreColor\" v-model=\"command\">&nbsp;\n        {{$parent.locale[\"fore color\"]}}\n    </label>\n    <label>\n        <input type=\"radio\" value=\"backColor\" v-model=\"command\">&nbsp;\n        {{$parent.locale[\"background color\"]}}\n    </label>\n</div>\n<div>\n    <div v-for=\"color in colors\" :style=\"{'background-color':color}\" class=\"color-card\" @click=\"changeColor(color)\">\n    </div>\n    <div style=\"clear: both\"></div>\n</div>\n";
 
 /***/ },
 /* 58 */
@@ -1719,17 +1770,24 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__vue_template__ = __webpack_require__(60)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/align/dashboard.vue"
+	  var id = "_v-4b81f31e/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1775,17 +1833,24 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__vue_template__ = __webpack_require__(63)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/list/dashboard.vue"
+	  var id = "_v-77e6c0cc/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1831,6 +1896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__vue_script__ = __webpack_require__(66)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
@@ -1839,14 +1905,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_template__ = __webpack_require__(67)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/link/dashboard.vue"
+	  var id = "_v-3152a1b0/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1952,6 +2024,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__vue_script__ = __webpack_require__(71)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
@@ -1960,14 +2033,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_template__ = __webpack_require__(72)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/table/dashboard.vue"
+	  var id = "_v-93c5d10c/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2091,6 +2170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__vue_script__ = __webpack_require__(75)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
@@ -2099,14 +2179,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_template__ = __webpack_require__(115)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/image/dashboard.vue"
+	  var id = "_v-5e1e4a47/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -3047,14 +3133,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _symbol2 = _interopRequireDefault(_symbol);
 
-	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj; };
+	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
 	  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	} : function (obj) {
-	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	};
 
 /***/ },
@@ -4020,6 +4106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	var __vue_styles__ = {}
 	__vue_script__ = __webpack_require__(122)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
@@ -4028,14 +4115,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_template__ = __webpack_require__(123)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
+	var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
 	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	__vue_options__.template = __vue_template__
 	}
+	if (!__vue_options__.computed) __vue_options__.computed = {}
+	Object.keys(__vue_styles__).forEach(function (key) {
+	var module = __vue_styles__[key]
+	__vue_options__.computed[key] = function () { return module }
+	})
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
+	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/peak/workspace/vue-html5-editor/src/modules/info/dashboard.vue"
+	  var id = "_v-f05dce48/dashboard.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
