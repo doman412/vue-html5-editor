@@ -1268,6 +1268,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        content.addEventListener("keyup", function () {
 	            component.content = component.$els.content.innerHTML;
 	        }, false);
+	        content.addEventListener("paste", function () {
+	            setTimeout(function () {
+	                component.saveCurrentRange();
+	                component.content = component.$els.content.innerHTML;
+	            });
+	        }, false);
 
 	        component.touchHandler = function (e) {
 	            if (component.$els.content.contains(e.target)) {
