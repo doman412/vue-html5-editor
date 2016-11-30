@@ -1247,7 +1247,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        },
 	        toggleHtmlView: function toggleHtmlView() {
-	            console.log('toggle html');
 	            this.htmlView = !this.htmlView;
 	        }
 	    },

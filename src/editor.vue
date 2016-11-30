@@ -163,7 +163,6 @@
                 }
             },
             toggleHtmlView(){
-                console.log('toggle html');
                 this.htmlView = !this.htmlView;
             }
         },
