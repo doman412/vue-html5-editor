@@ -8,6 +8,7 @@
   },
   "main": "dist/vue-html5-editor.js",
   "scripts": {
+    "dev": "webpack --watch",
     "build": "webpack --progress --hide-modules",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
