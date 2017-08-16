@@ -1,7 +1,7 @@
 <style lang="less" src="./style.less"></style>
 <template>
     <div class="vue-html5-editor" :style="{'z-index':zIndex}" :class="{'full-screen':fullScreen}">
-        <div class="toolbar" :style="{'z-index':zIndex+1}" v-el:toolbar>
+        <div class="toolbar" :style="{'z-index':zIndex+1}" ref="toolbar">
             <ul>
                 <template v-for="module in modules">
                     <li v-if="module.show" :title="locale[module.i18n]" @click="activeModule(module)" :class="{'disabled': htmlView && module.name != 'html'}">
@@ -10,12 +10,14 @@
                 </template>
             </ul>
             <div class="dashboard" v-show="dashboard" :style="dashboardStyle">
-                <div v-if="dashboard" :is="dashboard" keep-alive></div>
+                <keep-alive>
+                  <div v-if="dashboard" :is="dashboard"></div>
+                </keep-alive>
             </div>
         </div>
-        <div class="content" v-show="!htmlView" v-el:content contenteditable="true" @click="toggleDashboard(dashboard)" :style="contentStyle">
+        <div class="content" v-show="!htmlView" ref="content" contenteditable="true" @click="toggleDashboard(dashboard)" :style="contentStyle">
         </div>
-        <div class="content html-view" v-show="htmlView" v-el:html-view @click="toggleDashboard(dashboard)" :style="contentStyle">
+        <div class="content html-view" v-show="htmlView" ref="htmlView" @click="toggleDashboard(dashboard)" :style="contentStyle">
             <textarea name="name" :style="contentStyle" v-model="content"></textarea>
         </div>
     </div>
@@ -25,7 +27,6 @@
         props: {
             content: {
                 //no longer be required
-                //twoWay: true,
                 type: String,
                 required: true,
                 default: ""
@@ -57,9 +58,9 @@
         },
         watch: {
             content(val) {
-                let content = this.$els.content.innerHTML
+                let content = this.$refs.content.innerHTML
                 if (val != content) {
-                    this.$els.content.innerHTML = val
+                    this.$refs.content.innerHTML = val
                 }
             },
             dashboard(val){
@@ -90,7 +91,7 @@
             contentStyle(){
                 let style = {}
                 if (this.fullScreen) {
-                    style.height = window.innerHeight - (this.$els.toolbar.clientHeight + 1) + "px"
+                    style.height = window.innerHeight - (this.$refs.toolbar.clientHeight + 1) + "px"
                     return style
                 }
                 if (!this.autoHeight) {
@@ -103,10 +104,10 @@
         },
         methods: {
             computeDashboardStyle(){
-                this.dashboardStyle = {'max-height': this.$els.content.clientHeight + 'px'}
+                this.dashboardStyle = {'max-height': this.$refs.content.clientHeight + 'px'}
             },
             getContentElement(){
-                return this.$els.content
+                return this.$refs.content
             },
             toggleFullScreen(){
                 this.fullScreen = !this.fullScreen
@@ -117,7 +118,7 @@
             execCommand(command, arg){
                 this.restoreSelection()
                 document.execCommand(command, false, arg)
-                this.content = this.$els.content.innerHTML
+                this.$emit('update:content', this.$refs.content.innerHTML)
                 this.dashboard = null
             },
             getCurrentRange(){
@@ -129,8 +130,8 @@
                 if (!range) {
                     return
                 }
-                if (this.$els.content.contains(range.startContainer) &&
-                        this.$els.content.contains(range.endContainer)) {
+                if (this.$refs.content.contains(range.startContainer) &&
+                        this.$refs.content.contains(range.endContainer)) {
                     this.range = range
                 }
             },
@@ -140,7 +141,7 @@
                 if (this.range) {
                     selection.addRange(this.range)
                 } else {
-                    let content = this.$els.content
+                    let content = this.$refs.content
                     let div = document.createElement("div")
                     let range = document.createRange()
                     content.appendChild(div)
@@ -166,38 +167,38 @@
                 this.htmlView = !this.htmlView;
             }
         },
-        compiled(){
+        mounted(){
             let editor = this
             editor.modules.forEach(function (module) {
                 if (typeof module.init == "function") {
                     module.init(editor)
                 }
             })
-        },
-        ready(){
-            let component = this
-            let content = component.$els.content
-            content.innerHTML = component.content
-            content.addEventListener("mouseup", component.saveCurrentRange, false)
-            content.addEventListener("keyup", component.saveCurrentRange, false)
-            content.addEventListener("mouseout", component.saveCurrentRange, false)
-            content.addEventListener("keyup", function () {
-                component.content = component.$els.content.innerHTML
-            }, false)
-            content.addEventListener("paste", function () {
-                setTimeout(()=>{
-                  component.saveCurrentRange();
-                  component.content = component.$els.content.innerHTML
-                });
-            }, false)
+            this.$nextTick(()=>{
+              let component = this
+              let content = component.$refs.content
+              content.innerHTML = component.content
+              content.addEventListener("mouseup", component.saveCurrentRange, false)
+              content.addEventListener("keyup", component.saveCurrentRange, false)
+              content.addEventListener("mouseout", component.saveCurrentRange, false)
+              content.addEventListener("keyup", function () {
+                  component.$emit('update:content', component.$refs.content.innerHTML)
+              }, false)
+              content.addEventListener("paste", function () {
+                  setTimeout(()=>{
+                    component.saveCurrentRange();
+                    component.$emit('update:content', component.$refs.content.innerHTML)
+                  });
+              }, false)
 
-            component.touchHandler = function (e) {
-                if (component.$els.content.contains(e.target)) {
-                    component.saveCurrentRange()
-                }
-            }
+              component.touchHandler = function (e) {
+                  if (component.$refs.content.contains(e.target)) {
+                      component.saveCurrentRange()
+                  }
+              }
 
-            window.addEventListener("touchend", component.touchHandler, false)
+              window.addEventListener("touchend", component.touchHandler, false)
+            })
         },
         beforeDestroy(){
             let editor = this

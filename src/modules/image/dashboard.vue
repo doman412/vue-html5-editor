@@ -5,14 +5,14 @@
             <input type="text" v-model="url" maxlength="255" :placeholder="$parent.locale['please enter a url']">
             <button type="submit">{{$parent.locale.save}}</button>
             <button type="button" @click="pick">{{$parent.locale.upload}}</button>
-            <input type="file" v-el:file style="display: none !important;" @change="selectFile"
+            <input type="file" ref="file" style="display: none !important;" @change="selectFile"
                    accept="image/png,image/jpeg,image/gif,image/jpg">
         </form>
         <div v-if="upload.status=='progress'">
             {{$parent.locale.progress}}:{{progressComputable ? $parent.locale.unknown : upload.complete}}
         </div>
         <div v-if="upload.status=='success'">
-            {{$parent.locale.["please wait"]}}...
+            {{$parent.locale["please wait"]}}...
         </div>
         <div v-if="upload.status=='error'">
             {{$parent.locale.upload}}&nbsp;{{$parent.locale.error}},
@@ -46,7 +46,7 @@
                 this.upload.status = "ready"
             },
             pick() {
-                this.$els.file.click()
+                this.$refs.file.click()
             },
             insertImage(e) {
                 e.preventDefault()
@@ -60,13 +60,13 @@
                 let component = this
                 let config = component.$options.module.config
 
-                let file = this.$els.file.files[0]
+                let file = this.$refs.file.files[0]
                 if (file.size > config.size_limit) {
                     let prompt = component.$parent.locale["exceed size limit"]
                     alert(prompt)
                     return
                 }
-                component.$els.file.value = null
+                component.$refs.file.value = null
                 //需要压缩
                 if (config.compress) {
                     lrz(file, {

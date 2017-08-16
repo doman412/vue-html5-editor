@@ -8,20 +8,22 @@
     }
 </style>
 <template>
-    <div>
-        <label>
-            <input type="radio" value="foreColor" v-model="command">&nbsp;
-            {{$parent.locale["fore color"]}}
-        </label>
-        <label>
-            <input type="radio" value="backColor" v-model="command">&nbsp;
-            {{$parent.locale["background color"]}}
-        </label>
-    </div>
-    <div>
-        <div v-for="color in colors" :style="{'background-color':color}" class="color-card" @click="changeColor(color)">
-        </div>
-        <div style="clear: both"></div>
+    <div class="">
+      <div>
+          <label>
+              <input type="radio" value="foreColor" v-model="command">&nbsp;
+              {{$parent.locale["fore color"]}}
+          </label>
+          <label>
+              <input type="radio" value="backColor" v-model="command">&nbsp;
+              {{$parent.locale["background color"]}}
+          </label>
+      </div>
+      <div>
+          <div v-for="color in colors" :style="{'background-color':color}" class="color-card" @click="changeColor(color)">
+          </div>
+          <div style="clear: both"></div>
+      </div>
     </div>
 </template>
 <script>

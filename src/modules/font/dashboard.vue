@@ -7,7 +7,7 @@
     <div class="dashboard-font">
         <div v-if="config.heading !== false">
             <label>{{$parent.locale["heading"]}}:</label>
-            <button v-for="h in 6 | filterBy headingFilter" type="button" @click="setHeading(h+1)">H{{h+1}}</button>
+            <button v-for="h in headings" type="button" @click="setHeading(h)">H{{h}}</button>
         </div>
         <div v-if="config.font_name !== false">
             <label>
@@ -58,6 +58,11 @@
         },
         filters: {
 
+        },
+        computed: {
+          headings(){
+            return [1,2,3,4,5,6].filter(this.headingFilter)
+          },
         },
         methods: {
             setFontName(name){
@@ -114,7 +119,7 @@
 
             headingFilter(headingNumber){
                 if(typeof this.config.heading === 'object'){
-                    return this.config.heading[`h${headingNumber+1}`] !== false
+                    return this.config.heading[`h${headingNumber}`] !== false
                 }
                 return true
             },
